@@ -28,20 +28,61 @@
 
 ## 🔧 提交代码
 
+### 环境准备
+
+```bash
+# 克隆仓库
+git clone https://github.com/AstroAir/awesome-scripts.git
+cd awesome-scripts
+
+# 安装依赖
+pnpm install
+
+# 启动开发模式
+pnpm dev
+```
+
 ### 开发流程
 
 1. Fork 本仓库
 2. 创建功能分支: `git checkout -b feature/your-feature`
-3. 提交更改: `git commit -m 'feat: add some feature'`
-4. 推送分支: `git push origin feature/your-feature`
-5. 提交 Pull Request
+3. 安装依赖: `pnpm install`
+4. 开发并测试: `pnpm dev`
+5. 构建验证: `pnpm build`
+6. 代码检查: `pnpm lint`
+7. 提交更改: `git commit -m 'feat: add some feature'`
+8. 推送分支: `git push origin feature/your-feature`
+9. 提交 Pull Request
 
 ### 代码规范
 
+- 使用 ES6+ 语法
 - 使用 2 空格缩进
 - 使用有意义的变量和函数名
 - 添加必要的注释
 - 保持代码简洁易读
+- 遵循 ESLint 配置规则
+
+### 模块化开发
+
+新增脚本时请遵循模块化架构：
+
+```text
+src/scripts/your-script/
+├── index.js        # 入口文件
+├── config.js       # 配置常量
+├── styles.js       # CSS 样式
+├── state.js        # 状态管理
+├── components.js   # UI 组件
+├── animation.js    # 动画效果（可选）
+└── components/     # 子组件目录（可选）
+```
+
+公共模块位于：
+
+- `src/core/` - 核心功能（存储、观察器、样式注入）
+- `src/utils/` - 工具函数（DOM 操作、动画）
+- `src/components/` - 公共 UI 组件（按钮、图标、下拉菜单）
 
 ### Commit 规范
 

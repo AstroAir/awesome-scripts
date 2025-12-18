@@ -1,0 +1,56 @@
+{
+  "env": {
+    "browser": true,
+    "es2022": true,
+    "greasemonkey": true
+  },
+  "extends": [
+    "eslint:recommended"
+  ],
+  "overrides": [
+    {
+      "files": ["tests/**/*.js"],
+      "env": {
+        "jest": true,
+        "node": true
+      },
+      "globals": {
+        "testUtils": "readonly"
+      }
+    }
+  ],
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "globals": {
+    "GM_addStyle": "readonly",
+    "GM_getValue": "readonly",
+    "GM_setValue": "readonly",
+    "GM_deleteValue": "readonly",
+    "GM_listValues": "readonly",
+    "GM_registerMenuCommand": "readonly",
+    "GM_unregisterMenuCommand": "readonly",
+    "GM_openInTab": "readonly",
+    "GM_xmlhttpRequest": "readonly",
+    "GM_notification": "readonly",
+    "GM_setClipboard": "readonly",
+    "GM_info": "readonly",
+    "unsafeWindow": "readonly"
+  },
+  "rules": {
+    "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+    "no-console": "off",
+    "prefer-const": "warn",
+    "no-var": "error",
+    "eqeqeq": ["warn", "smart"],
+    "curly": ["warn", "multi-line"],
+    "semi": ["warn", "always"],
+    "quotes": ["warn", "single", { "avoidEscape": true }],
+    "indent": ["warn", 2, { "SwitchCase": 1 }],
+    "comma-dangle": ["warn", "always-multiline"],
+    "arrow-parens": ["warn", "always"],
+    "object-curly-spacing": ["warn", "always"],
+    "array-bracket-spacing": ["warn", "never"]
+  }
+}

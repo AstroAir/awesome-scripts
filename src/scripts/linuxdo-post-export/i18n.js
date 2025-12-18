@@ -1,0 +1,357 @@
+/**
+ * Linux.do Forum Post Exporter - 国际化模块
+ */
+
+/**
+ * 翻译字典
+ */
+export const translations = {
+  en: {
+    exportJSON: 'Export JSON',
+    exportHTML: 'Export HTML',
+    embedImages: 'Embed images',
+    language: 'Language',
+    convertingImages: 'Converting images to base64...',
+    convertingImagesJSON: 'Converting images to base64 for JSON export...',
+    exportingJSON: 'Exporting to JSON...',
+    exportingHTML: 'Exporting to HTML...',
+    exportCompleted: '✓ Export completed!',
+    jsonExportCompleted: '✓ JSON export completed!',
+    htmlExportCompleted: '✓ HTML export completed!',
+    exportFailed: '✗ Export failed: ',
+    loadingPosts: 'Loading posts...',
+    topicID: 'Topic ID',
+    posts: 'Posts',
+    source: 'Source',
+    replyTo: 'Reply to',
+    exportedFrom: 'Exported from Linux.do on',
+    dateFormat: { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' },
+    noPostsFound: 'No posts found on this page',
+    exportError: 'An error occurred during export',
+    scriptInitialized: 'Linux.do Forum Exporter initialized',
+  },
+  'zh-CN': {
+    exportJSON: '导出 JSON',
+    exportHTML: '导出 HTML',
+    embedImages: '嵌入图片',
+    language: '语言',
+    convertingImages: '正在转换图片为 base64...',
+    convertingImagesJSON: '正在为 JSON 导出转换图片...',
+    exportingJSON: '正在导出为 JSON...',
+    exportingHTML: '正在导出为 HTML...',
+    exportCompleted: '✓ 导出完成！',
+    jsonExportCompleted: '✓ JSON 导出完成！',
+    htmlExportCompleted: '✓ HTML 导出完成！',
+    exportFailed: '✗ 导出失败：',
+    loadingPosts: '正在加载帖子...',
+    topicID: '主题 ID',
+    posts: '帖子数',
+    source: '来源',
+    replyTo: '回复',
+    exportedFrom: '导出自 Linux.do 于',
+    dateFormat: { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' },
+    noPostsFound: '页面未找到帖子',
+    exportError: '导出过程中发生错误',
+    scriptInitialized: 'Linux.do 论坛导出器已初始化',
+  },
+  'zh-TW': {
+    exportJSON: '匯出 JSON',
+    exportHTML: '匯出 HTML',
+    embedImages: '嵌入圖片',
+    language: '語言',
+    convertingImages: '正在轉換圖片為 base64...',
+    convertingImagesJSON: '正在為 JSON 匯出轉換圖片...',
+    exportingJSON: '正在匯出為 JSON...',
+    exportingHTML: '正在匯出為 HTML...',
+    exportCompleted: '✓ 匯出完成！',
+    jsonExportCompleted: '✓ JSON 匯出完成！',
+    htmlExportCompleted: '✓ HTML 匯出完成！',
+    exportFailed: '✗ 匯出失敗：',
+    loadingPosts: '正在載入貼文...',
+    topicID: '主題 ID',
+    posts: '貼文數',
+    source: '來源',
+    replyTo: '回覆',
+    exportedFrom: '匯出自 Linux.do 於',
+    dateFormat: { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' },
+    noPostsFound: '頁面未找到貼文',
+    exportError: '匯出過程中發生錯誤',
+    scriptInitialized: 'Linux.do 論壇匯出器已初始化',
+  },
+  ja: {
+    exportJSON: 'JSON エクスポート',
+    exportHTML: 'HTML エクスポート',
+    embedImages: '画像を埋め込む',
+    language: '言語',
+    convertingImages: '画像を base64 に変換中...',
+    convertingImagesJSON: 'JSON エクスポート用に画像を変換中...',
+    exportingJSON: 'JSON にエクスポート中...',
+    exportingHTML: 'HTML にエクスポート中...',
+    exportCompleted: '✓ エクスポート完了！',
+    jsonExportCompleted: '✓ JSON エクスポート完了！',
+    htmlExportCompleted: '✓ HTML エクスポート完了！',
+    exportFailed: '✗ エクスポート失敗：',
+    loadingPosts: '投稿を読み込み中...',
+    topicID: 'トピック ID',
+    posts: '投稿数',
+    source: 'ソース',
+    replyTo: '返信先',
+    exportedFrom: 'Linux.do からエクスポート',
+    dateFormat: { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' },
+    noPostsFound: 'このページに投稿が見つかりません',
+    exportError: 'エクスポート中にエラーが発生しました',
+    scriptInitialized: 'Linux.do フォーラムエクスポーターが初期化されました',
+  },
+  ko: {
+    exportJSON: 'JSON 내보내기',
+    exportHTML: 'HTML 내보내기',
+    embedImages: '이미지 포함',
+    language: '언어',
+    convertingImages: '이미지를 base64로 변환 중...',
+    convertingImagesJSON: 'JSON 내보내기를 위해 이미지 변환 중...',
+    exportingJSON: 'JSON으로 내보내는 중...',
+    exportingHTML: 'HTML로 내보내는 중...',
+    exportCompleted: '✓ 내보내기 완료!',
+    jsonExportCompleted: '✓ JSON 내보내기 완료!',
+    htmlExportCompleted: '✓ HTML 내보내기 완료!',
+    exportFailed: '✗ 내보내기 실패: ',
+    loadingPosts: '게시물 로딩 중...',
+    topicID: '주제 ID',
+    posts: '게시물',
+    source: '출처',
+    replyTo: '답글',
+    exportedFrom: 'Linux.do에서 내보냄',
+    dateFormat: { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' },
+    noPostsFound: '이 페이지에서 게시물을 찾을 수 없습니다',
+    exportError: '내보내기 중 오류가 발생했습니다',
+    scriptInitialized: 'Linux.do 포럼 내보내기 도구가 초기화되었습니다',
+  },
+  es: {
+    exportJSON: 'Exportar JSON',
+    exportHTML: 'Exportar HTML',
+    embedImages: 'Incluir imágenes',
+    language: 'Idioma',
+    convertingImages: 'Convirtiendo imágenes a base64...',
+    convertingImagesJSON: 'Convirtiendo imágenes para exportación JSON...',
+    exportingJSON: 'Exportando a JSON...',
+    exportingHTML: 'Exportando a HTML...',
+    exportCompleted: '✓ ¡Exportación completada!',
+    jsonExportCompleted: '✓ ¡Exportación JSON completada!',
+    htmlExportCompleted: '✓ ¡Exportación HTML completada!',
+    exportFailed: '✗ Error en la exportación: ',
+    loadingPosts: 'Cargando publicaciones...',
+    topicID: 'ID del tema',
+    posts: 'Publicaciones',
+    source: 'Fuente',
+    replyTo: 'Responder a',
+    exportedFrom: 'Exportado de Linux.do el',
+    dateFormat: { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' },
+    noPostsFound: 'No se encontraron publicaciones en esta página',
+    exportError: 'Ocurrió un error durante la exportación',
+    scriptInitialized: 'Exportador de foros Linux.do inicializado',
+  },
+  fr: {
+    exportJSON: 'Exporter JSON',
+    exportHTML: 'Exporter HTML',
+    embedImages: 'Intégrer les images',
+    language: 'Langue',
+    convertingImages: 'Conversion des images en base64...',
+    convertingImagesJSON: "Conversion des images pour l'export JSON...",
+    exportingJSON: 'Exportation en JSON...',
+    exportingHTML: 'Exportation en HTML...',
+    exportCompleted: '✓ Exportation terminée !',
+    jsonExportCompleted: '✓ Exportation JSON terminée !',
+    htmlExportCompleted: '✓ Exportation HTML terminée !',
+    exportFailed: "✗ Échec de l'exportation : ",
+    loadingPosts: 'Chargement des publications...',
+    topicID: 'ID du sujet',
+    posts: 'Publications',
+    source: 'Source',
+    replyTo: 'Répondre à',
+    exportedFrom: 'Exporté de Linux.do le',
+    dateFormat: { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' },
+    noPostsFound: 'Aucune publication trouvée sur cette page',
+    exportError: "Une erreur s'est produite lors de l'exportation",
+    scriptInitialized: 'Exportateur de forum Linux.do initialisé',
+  },
+  de: {
+    exportJSON: 'JSON exportieren',
+    exportHTML: 'HTML exportieren',
+    embedImages: 'Bilder einbetten',
+    language: 'Sprache',
+    convertingImages: 'Konvertiere Bilder zu base64...',
+    convertingImagesJSON: 'Konvertiere Bilder für JSON-Export...',
+    exportingJSON: 'Exportiere zu JSON...',
+    exportingHTML: 'Exportiere zu HTML...',
+    exportCompleted: '✓ Export abgeschlossen!',
+    jsonExportCompleted: '✓ JSON-Export abgeschlossen!',
+    htmlExportCompleted: '✓ HTML-Export abgeschlossen!',
+    exportFailed: '✗ Export fehlgeschlagen: ',
+    loadingPosts: 'Lade Beiträge...',
+    topicID: 'Themen-ID',
+    posts: 'Beiträge',
+    source: 'Quelle',
+    replyTo: 'Antworten an',
+    exportedFrom: 'Exportiert von Linux.do am',
+    dateFormat: { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' },
+    noPostsFound: 'Keine Beiträge auf dieser Seite gefunden',
+    exportError: 'Ein Fehler ist beim Export aufgetreten',
+    scriptInitialized: 'Linux.do Forum-Exporter initialisiert',
+  },
+  ru: {
+    exportJSON: 'Экспорт JSON',
+    exportHTML: 'Экспорт HTML',
+    embedImages: 'Встроить изображения',
+    language: 'Язык',
+    convertingImages: 'Конвертация изображений в base64...',
+    convertingImagesJSON: 'Конвертация изображений для экспорта JSON...',
+    exportingJSON: 'Экспорт в JSON...',
+    exportingHTML: 'Экспорт в HTML...',
+    exportCompleted: '✓ Экспорт завершен!',
+    jsonExportCompleted: '✓ Экспорт JSON завершен!',
+    htmlExportCompleted: '✓ Экспорт HTML завершен!',
+    exportFailed: '✗ Ошибка экспорта: ',
+    loadingPosts: 'Загрузка сообщений...',
+    topicID: 'ID темы',
+    posts: 'Сообщения',
+    source: 'Источник',
+    replyTo: 'Ответить',
+    exportedFrom: 'Экспортировано с Linux.do',
+    dateFormat: { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' },
+    noPostsFound: 'На этой странице не найдено сообщений',
+    exportError: 'Произошла ошибка при экспорте',
+    scriptInitialized: 'Экспортер форума Linux.do инициализирован',
+  },
+};
+
+/**
+ * 语言名称映射
+ */
+const languageNames = {
+  en: 'English',
+  'zh-CN': '简体中文',
+  'zh-TW': '繁體中文',
+  ja: '日本語',
+  ko: '한국어',
+  es: 'Español',
+  fr: 'Français',
+  de: 'Deutsch',
+  ru: 'Русский',
+};
+
+/**
+ * I18n类
+ */
+export class I18n {
+  constructor() {
+    this.currentLang = this.detectLanguage();
+    this.fallbackLang = 'en';
+  }
+
+  /**
+   * 检测语言
+   * @returns {string}
+   */
+  detectLanguage() {
+    const savedLang = typeof GM_getValue !== 'undefined'
+      ? GM_getValue('language', null)
+      : localStorage.getItem('exporter_language');
+
+    if (savedLang && translations[savedLang]) {
+      return savedLang;
+    }
+
+    const browserLang = navigator.language || navigator.userLanguage;
+
+    if (translations[browserLang]) {
+      return browserLang;
+    }
+
+    const primaryLang = browserLang.split('-')[0];
+    const matchingLang = Object.keys(translations).find((lang) => lang.startsWith(primaryLang));
+    if (matchingLang) {
+      return matchingLang;
+    }
+
+    return this.fallbackLang;
+  }
+
+  /**
+   * 设置语言
+   * @param {string} lang - 语言代码
+   * @returns {boolean}
+   */
+  setLanguage(lang) {
+    if (translations[lang]) {
+      this.currentLang = lang;
+      if (typeof GM_setValue !== 'undefined') {
+        GM_setValue('language', lang);
+      } else {
+        localStorage.setItem('exporter_language', lang);
+      }
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * 获取翻译
+   * @param {string} key - 翻译键
+   * @returns {string|Object}
+   */
+  t(key) {
+    const keys = key.split('.');
+    let value = translations[this.currentLang];
+
+    for (const k of keys) {
+      if (value && typeof value === 'object' && k in value) {
+        value = value[k];
+      } else {
+        value = translations[this.fallbackLang];
+        for (const fallbackKey of keys) {
+          if (value && typeof value === 'object' && fallbackKey in value) {
+            value = value[fallbackKey];
+          } else {
+            return key;
+          }
+        }
+        break;
+      }
+    }
+
+    return value;
+  }
+
+  /**
+   * 获取可用语言列表
+   * @returns {Array}
+   */
+  getAvailableLanguages() {
+    return Object.keys(translations).map((code) => ({
+      code,
+      name: this.getLanguageName(code),
+    }));
+  }
+
+  /**
+   * 获取语言名称
+   * @param {string} code - 语言代码
+   * @returns {string}
+   */
+  getLanguageName(code) {
+    return languageNames[code] || code;
+  }
+
+  /**
+   * 格式化日期
+   * @param {string} date - 日期字符串
+   * @returns {string}
+   */
+  formatDate(date) {
+    return new Date(date).toLocaleString(this.currentLang, this.t('dateFormat'));
+  }
+}
+
+export const i18n = new I18n();
+
+export default i18n;

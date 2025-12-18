@@ -29,3 +29,10 @@ build/
 # Local config
 .env
 .env.local
+
+# pnpm
+pnpm-lock.yaml
+
+# Cache
+.cache/
+.eslintcache

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Linux.do Forum Post Exporter
 // @namespace    https://linux.do/
-// @version      2.1.0
+// @version      2.2.0
 // @description  Export forum posts from linux.do with replies in JSON or HTML format - Optimized & Beautiful with i18n support
 // @author       Forum Exporter
 // @match        https://linux.do/t/*
@@ -22,6 +22,12 @@
       exportHTML: "Export HTML",
       embedImages: "Embed images",
       language: "Language",
+      searchPlaceholder: "Search posts...",
+      noResults: "No matching posts found",
+      showAll: "Show all",
+      lightTheme: "Light",
+      darkTheme: "Dark",
+      autoTheme: "Auto",
 
       // Progress Messages
       convertingImages: "Converting images to base64...",
@@ -64,6 +70,12 @@
       exportHTML: "导出 HTML",
       embedImages: "嵌入图片",
       language: "语言",
+      searchPlaceholder: "搜索帖子...",
+      noResults: "未找到匹配的帖子",
+      showAll: "显示全部",
+      lightTheme: "浅色",
+      darkTheme: "深色",
+      autoTheme: "自动",
 
       // Progress Messages
       convertingImages: "正在转换图片为 base64...",
@@ -106,6 +118,12 @@
       exportHTML: "匯出 HTML",
       embedImages: "嵌入圖片",
       language: "語言",
+      searchPlaceholder: "搜尋貼文...",
+      noResults: "未找到符合的貼文",
+      showAll: "顯示全部",
+      lightTheme: "淺色",
+      darkTheme: "深色",
+      autoTheme: "自動",
 
       // Progress Messages
       convertingImages: "正在轉換圖片為 base64...",
@@ -148,6 +166,12 @@
       exportHTML: "HTML エクスポート",
       embedImages: "画像を埋め込む",
       language: "言語",
+      searchPlaceholder: "投稿を検索...",
+      noResults: "一致する投稿が見つかりません",
+      showAll: "すべて表示",
+      lightTheme: "ライト",
+      darkTheme: "ダーク",
+      autoTheme: "自動",
 
       // Progress Messages
       convertingImages: "画像を base64 に変換中...",
@@ -190,6 +214,12 @@
       exportHTML: "HTML 내보내기",
       embedImages: "이미지 포함",
       language: "언어",
+      searchPlaceholder: "게시물 검색...",
+      noResults: "일치하는 게시물이 없습니다",
+      showAll: "모두 표시",
+      lightTheme: "라이트",
+      darkTheme: "다크",
+      autoTheme: "자동",
 
       // Progress Messages
       convertingImages: "이미지를 base64로 변환 중...",
@@ -232,6 +262,12 @@
       exportHTML: "Exportar HTML",
       embedImages: "Incluir imágenes",
       language: "Idioma",
+      searchPlaceholder: "Buscar publicaciones...",
+      noResults: "No se encontraron publicaciones",
+      showAll: "Mostrar todo",
+      lightTheme: "Claro",
+      darkTheme: "Oscuro",
+      autoTheme: "Auto",
 
       // Progress Messages
       convertingImages: "Convirtiendo imágenes a base64...",
@@ -274,6 +310,12 @@
       exportHTML: "Exporter HTML",
       embedImages: "Intégrer les images",
       language: "Langue",
+      searchPlaceholder: "Rechercher des publications...",
+      noResults: "Aucune publication trouvée",
+      showAll: "Tout afficher",
+      lightTheme: "Clair",
+      darkTheme: "Sombre",
+      autoTheme: "Auto",
 
       // Progress Messages
       convertingImages: "Conversion des images en base64...",
@@ -316,6 +358,12 @@
       exportHTML: "HTML exportieren",
       embedImages: "Bilder einbetten",
       language: "Sprache",
+      searchPlaceholder: "Beiträge suchen...",
+      noResults: "Keine passenden Beiträge gefunden",
+      showAll: "Alle anzeigen",
+      lightTheme: "Hell",
+      darkTheme: "Dunkel",
+      autoTheme: "Auto",
 
       // Progress Messages
       convertingImages: "Konvertiere Bilder zu base64...",
@@ -358,6 +406,12 @@
       exportHTML: "Экспорт HTML",
       embedImages: "Встроить изображения",
       language: "Язык",
+      searchPlaceholder: "Поиск сообщений...",
+      noResults: "Сообщения не найдены",
+      showAll: "Показать все",
+      lightTheme: "Светлая",
+      darkTheme: "Тёмная",
+      autoTheme: "Авто",
 
       // Progress Messages
       convertingImages: "Конвертация изображений в base64...",
@@ -740,6 +794,16 @@
       })),
     }));
 
+    // Get i18n strings for the exported HTML
+    const i18nStrings = {
+      searchPlaceholder: i18n.t("searchPlaceholder"),
+      noResults: i18n.t("noResults"),
+      showAll: i18n.t("showAll"),
+      lightTheme: i18n.t("lightTheme"),
+      darkTheme: i18n.t("darkTheme"),
+      autoTheme: i18n.t("autoTheme"),
+    };
+
     const html = `<!DOCTYPE html>
 <html lang="${i18n.currentLang}">
 <head>
@@ -768,6 +832,36 @@
             --radius-sm: 4px;
             --radius-md: 8px;
             --radius-lg: 12px;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #242424;
+            --bg-tertiary: #2d2d2d;
+            --text-primary: #e9ecef;
+            --text-secondary: #adb5bd;
+            --text-tertiary: #6c757d;
+            --border-color: #3d3d3d;
+            --accent-color: #adb5bd;
+            --hover-bg: #2d2d2d;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme="light"]) {
+                --bg-primary: #1a1a1a;
+                --bg-secondary: #242424;
+                --bg-tertiary: #2d2d2d;
+                --text-primary: #e9ecef;
+                --text-secondary: #adb5bd;
+                --text-tertiary: #6c757d;
+                --border-color: #3d3d3d;
+                --accent-color: #adb5bd;
+                --hover-bg: #2d2d2d;
+                --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.2);
+                --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.3);
+            }
         }
 
         body {
@@ -1148,6 +1242,183 @@
                 text-decoration: none;
                 border-bottom: none;
             }
+
+            .toolbar {
+                display: none !important;
+            }
+        }
+
+        /* Toolbar Styles */
+        .toolbar {
+            background: var(--bg-primary);
+            padding: 16px;
+            border-radius: var(--radius-md);
+            margin-bottom: 16px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .search-wrapper {
+            flex: 1;
+            min-width: 200px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 40px 10px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .search-input::placeholder {
+            color: var(--text-tertiary);
+        }
+
+        .search-input:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(73, 80, 87, 0.1);
+        }
+
+        .search-clear {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-tertiary);
+            cursor: pointer;
+            font-size: 18px;
+            padding: 4px;
+            line-height: 1;
+            display: none;
+        }
+
+        .search-clear.visible {
+            display: block;
+        }
+
+        .search-clear:hover {
+            color: var(--text-secondary);
+        }
+
+        .theme-toggle {
+            display: flex;
+            gap: 4px;
+            background: var(--bg-secondary);
+            padding: 4px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+        }
+
+        .theme-btn {
+            padding: 6px 12px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 13px;
+            cursor: pointer;
+            border-radius: 3px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .theme-btn:hover {
+            color: var(--text-primary);
+            background: var(--hover-bg);
+        }
+
+        .theme-btn.active {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .no-results {
+            background: var(--bg-primary);
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            display: none;
+        }
+
+        .no-results.visible {
+            display: block;
+        }
+
+        .no-results-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+            opacity: 0.5;
+        }
+
+        .no-results-text {
+            font-size: 16px;
+            margin-bottom: 16px;
+        }
+
+        .show-all-btn {
+            padding: 8px 16px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .show-all-btn:hover {
+            background: var(--hover-bg);
+        }
+
+        .post.hidden {
+            display: none;
+        }
+
+        .search-highlight {
+            background: #fff3cd;
+            padding: 1px 2px;
+            border-radius: 2px;
+        }
+
+        [data-theme="dark"] .search-highlight {
+            background: #5a4b00;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme="light"]) .search-highlight {
+                background: #5a4b00;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-wrapper {
+                width: 100%;
+            }
+
+            .theme-toggle {
+                justify-content: center;
+            }
         }
     </style>
 </head>
@@ -1181,10 +1452,28 @@
             </div>
         </div>
 
+        <div class="toolbar">
+            <div class="search-wrapper">
+                <input type="text" class="search-input" id="searchInput" placeholder="${i18nStrings.searchPlaceholder}">
+                <button class="search-clear" id="searchClear">&times;</button>
+            </div>
+            <div class="theme-toggle">
+                <button class="theme-btn" data-theme="light" title="${i18nStrings.lightTheme}">☀️ ${i18nStrings.lightTheme}</button>
+                <button class="theme-btn active" data-theme="auto" title="${i18nStrings.autoTheme}">🌗 ${i18nStrings.autoTheme}</button>
+                <button class="theme-btn" data-theme="dark" title="${i18nStrings.darkTheme}">🌙 ${i18nStrings.darkTheme}</button>
+            </div>
+        </div>
+
+        <div class="no-results" id="noResults">
+            <div class="no-results-icon">🔍</div>
+            <div class="no-results-text">${i18nStrings.noResults}</div>
+            <button class="show-all-btn" id="showAllBtn">${i18nStrings.showAll}</button>
+        </div>
+
         ${cleanedPosts
           .map(
             (post) => `
-        <div class="post" id="post-${post.postNumber}">
+        <div class="post" id="post-${post.postNumber}" data-author="${post.author.username}" data-content="${post.contentText.replace(/"/g, '&quot;').substring(0, 1000)}">
             <div class="post-header">
                 ${
                   post.author.avatarUrl
@@ -1222,6 +1511,120 @@
             ${i18n.t("exportedFrom")} ${i18n.formatDate(data.exportDate)}
         </div>
     </div>
+
+    <script>
+        (function() {
+            // Theme switching
+            const themeButtons = document.querySelectorAll('.theme-btn');
+            const htmlElement = document.documentElement;
+            
+            function setTheme(theme) {
+                themeButtons.forEach(btn => btn.classList.remove('active'));
+                document.querySelector('[data-theme="' + theme + '"]').classList.add('active');
+                
+                if (theme === 'auto') {
+                    htmlElement.removeAttribute('data-theme');
+                } else {
+                    htmlElement.setAttribute('data-theme', theme);
+                }
+                
+                localStorage.setItem('theme', theme);
+            }
+            
+            // Load saved theme
+            const savedTheme = localStorage.getItem('theme') || 'auto';
+            setTheme(savedTheme);
+            
+            themeButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    setTheme(this.getAttribute('data-theme'));
+                });
+            });
+            
+            // Search functionality
+            const searchInput = document.getElementById('searchInput');
+            const searchClear = document.getElementById('searchClear');
+            const noResults = document.getElementById('noResults');
+            const showAllBtn = document.getElementById('showAllBtn');
+            const posts = document.querySelectorAll('.post');
+            
+            let searchTimeout;
+            
+            function performSearch(query) {
+                const normalizedQuery = query.toLowerCase().trim();
+                let visibleCount = 0;
+                
+                posts.forEach(post => {
+                    const author = (post.getAttribute('data-author') || '').toLowerCase();
+                    const content = (post.getAttribute('data-content') || '').toLowerCase();
+                    const postContent = post.querySelector('.post-content');
+                    const originalContent = postContent.getAttribute('data-original') || postContent.innerHTML;
+                    
+                    // Store original content
+                    if (!postContent.getAttribute('data-original')) {
+                        postContent.setAttribute('data-original', postContent.innerHTML);
+                    }
+                    
+                    if (!normalizedQuery) {
+                        post.classList.remove('hidden');
+                        postContent.innerHTML = originalContent;
+                        visibleCount++;
+                        return;
+                    }
+                    
+                    const matches = author.includes(normalizedQuery) || content.includes(normalizedQuery);
+                    
+                    if (matches) {
+                        post.classList.remove('hidden');
+                        visibleCount++;
+                    } else {
+                        post.classList.add('hidden');
+                    }
+                });
+                
+                // Show/hide no results message
+                if (visibleCount === 0 && normalizedQuery) {
+                    noResults.classList.add('visible');
+                } else {
+                    noResults.classList.remove('visible');
+                }
+                
+                // Show/hide clear button
+                if (query) {
+                    searchClear.classList.add('visible');
+                } else {
+                    searchClear.classList.remove('visible');
+                }
+            }
+            
+            searchInput.addEventListener('input', function() {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    performSearch(this.value);
+                }, 200);
+            });
+            
+            searchClear.addEventListener('click', function() {
+                searchInput.value = '';
+                performSearch('');
+                searchInput.focus();
+            });
+            
+            showAllBtn.addEventListener('click', function() {
+                searchInput.value = '';
+                performSearch('');
+            });
+            
+            // Keyboard shortcut: Ctrl/Cmd + F to focus search
+            document.addEventListener('keydown', function(e) {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+                    e.preventDefault();
+                    searchInput.focus();
+                    searchInput.select();
+                }
+            });
+        })();
+    </script>
 </body>
 </html>`;
 
@@ -1573,7 +1976,7 @@
     await waitForPosts();
     hideProgress();
     createExportButton();
-    console.log(i18n.t("scriptInitialized") + " v2.1.0");
+    console.log(i18n.t("scriptInitialized") + " v2.2.0");
   }
 
   // Start the script
