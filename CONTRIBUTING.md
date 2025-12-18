@@ -48,11 +48,13 @@ pnpm dev
 2. 创建功能分支: `git checkout -b feature/your-feature`
 3. 安装依赖: `pnpm install`
 4. 开发并测试: `pnpm dev`
-5. 构建验证: `pnpm build`
-6. 代码检查: `pnpm lint`
-7. 提交更改: `git commit -m 'feat: add some feature'`
-8. 推送分支: `git push origin feature/your-feature`
-9. 提交 Pull Request
+5. 运行单元测试: `pnpm test`
+6. 运行 E2E 测试: `pnpm test:e2e`
+7. 构建验证: `pnpm build`
+8. 代码检查: `pnpm lint`
+9. 提交更改: `git commit -m 'feat: add some feature'`
+10. 推送分支: `git push origin feature/your-feature`
+11. 提交 Pull Request
 
 ### 代码规范
 
@@ -82,7 +84,7 @@ src/scripts/your-script/
 
 - `src/core/` - 核心功能（存储、观察器、样式注入）
 - `src/utils/` - 工具函数（DOM 操作、动画）
-- `src/components/` - 公共 UI 组件（按钮、图标、下拉菜单）
+- `src/components/` - 公共 UI 组件（按钮、图标、下拉菜单、折叠按钮、可拖动面板、进度提示）
 
 ### Commit 规范
 
@@ -113,6 +115,46 @@ src/scripts/your-script/
 // @license      MIT
 // ==/UserScript==
 ```
+
+## 🧪 测试
+
+项目包含单元测试和 E2E 测试：
+
+```bash
+# 运行单元测试
+pnpm test
+
+# 运行单元测试（监听模式）
+pnpm test:watch
+
+# 查看测试覆盖率
+pnpm test:coverage
+
+# 运行 E2E 测试
+pnpm test:e2e
+
+# 运行 E2E 测试（UI 模式）
+pnpm test:e2e:ui
+```
+
+测试文件结构：
+
+```text
+tests/                    # 单元测试目录
+├── setup.js              # Jest 配置
+├── core/                 # 核心模块测试
+├── utils/                # 工具函数测试
+├── components/           # 组件测试
+└── scripts/              # 脚本测试
+
+e2e/                      # E2E 测试目录
+├── fixtures/             # 测试数据
+├── helpers/              # 测试辅助函数
+├── local/                # 本地测试文件
+└── *.spec.js             # 测试用例
+```
+
+新增功能时请添加对应的测试用例。
 
 ## 📝 文档
 

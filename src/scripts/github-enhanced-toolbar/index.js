@@ -37,6 +37,7 @@ function init() {
 
   document.addEventListener('pjax:end', debouncedAddButtons);
   document.addEventListener('turbo:load', debouncedAddButtons);
+  window.addEventListener('resize', debouncedAddButtons);
 
   setupUrlObserver(() => {
     setTimeout(debouncedAddButtons, CONFIG.URL_CHANGE_DELAY);

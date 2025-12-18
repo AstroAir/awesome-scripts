@@ -4,8 +4,20 @@
 [![Tampermonkey](https://img.shields.io/badge/Tampermonkey-Compatible-green.svg)](https://www.tampermonkey.net/)
 [![pnpm](https://img.shields.io/badge/pnpm-8.14.0-orange.svg)](https://pnpm.io/)
 [![Webpack](https://img.shields.io/badge/Webpack-5.89.0-blue.svg)](https://webpack.js.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-≥18.0.0-339933.svg)](https://nodejs.org/)
+
+**[English](./README_EN.md)** | 简体中文
 
 一个实用的油猴脚本合集，包含 GitHub 增强和 Linux.do 论坛工具。采用模块化架构设计，使用 pnpm + webpack 进行构建打包。
+
+## ✨ 特性
+
+- 🏗️ **模块化架构** - 核心模块、工具函数、UI 组件分离，代码复用性高
+- 📦 **现代化构建** - 基于 Webpack 5 + Babel，支持 ES6+ 语法
+- 🧪 **完善测试** - Jest 单元测试 + Playwright E2E 测试
+- 🎨 **主题适配** - 自动适配亮色/暗色主题
+- 🌐 **国际化支持** - 部分脚本支持多语言界面
+- ⌨️ **快捷键支持** - 提供便捷的键盘快捷键操作
 
 ## 📦 脚本列表
 
@@ -39,10 +51,13 @@ awesome-scripts/
 │   │   ├── dom.js                # DOM 操作工具
 │   │   ├── animation.js          # 动画工具
 │   │   └── index.js              # 工具模块导出
-│   ├── components/               # UI 组件
+│   ├── components/               # 公共 UI 组件
 │   │   ├── icons.js              # SVG 图标
 │   │   ├── button.js             # 按钮组件
 │   │   ├── dropdown.js           # 下拉菜单组件
+│   │   ├── fold-button.js        # 折叠按钮组件
+│   │   ├── draggable-panel.js    # 可拖动面板组件
+│   │   ├── progress-toast.js     # 进度提示组件
 │   │   └── index.js              # 组件模块导出
 │   └── scripts/                  # 脚本目录
 │       ├── github-fold-about/    # GitHub Fold About 脚本
@@ -65,7 +80,16 @@ awesome-scripts/
 │       │   ├── dropdown.js       # 下拉菜单
 │       │   ├── keyboard.js       # 键盘快捷键
 │       │   ├── menu.js           # 菜单命令
-│       │   ├── components/       # 子组件
+│       │   ├── components/       # 子组件目录
+│       │   │   ├── icons.js          # 图标
+│       │   │   ├── search-box.js     # 搜索框
+│       │   │   ├── category-tabs.js  # 分类标签
+│       │   │   ├── period-selector.js # 时间选择器
+│       │   │   ├── language-list.js  # 语言列表
+│       │   │   ├── favorites-section.js # 收藏区域
+│       │   │   ├── recent-section.js # 最近访问
+│       │   │   ├── settings-dialog.js # 设置对话框
+│       │   │   └── index.js
 │       │   └── index.js
 │       ├── github-enhanced-toolbar/ # GitHub 增强工具栏脚本
 │       │   ├── config.js         # 按钮配置
@@ -79,24 +103,28 @@ awesome-scripts/
 │       │   ├── state.js          # 状态管理
 │       │   ├── utils.js          # 工具函数
 │       │   ├── storage.js        # 存储管理
-│       │   ├── api.js            # API请求
+│       │   ├── api.js            # API 请求
 │       │   ├── logger.js         # 日志系统
 │       │   ├── behavior.js       # 行为模拟
 │       │   ├── core.js           # 核心控制器
 │       │   ├── styles.js         # 样式
-│       │   ├── ui.js             # UI系统
+│       │   ├── ui.js             # UI 系统
 │       │   └── index.js
 │       └── linuxdo-post-export/  # Linux.do 帖子导出脚本
 │           ├── i18n.js           # 国际化
 │           ├── extractor.js      # 数据提取
 │           ├── generator.js      # 文件生成
 │           ├── styles.js         # 样式
-│           ├── ui.js             # UI组件
+│           ├── ui.js             # UI 组件
 │           └── index.js
+├── tests/                        # 单元测试目录
+├── e2e/                          # E2E 测试目录
 ├── dist/                         # 构建输出目录
 ├── package.json                  # 项目配置
 ├── webpack.config.js             # Webpack 配置
 ├── babel.config.json             # Babel 配置
+├── jest.config.js                # Jest 测试配置
+├── playwright.config.js          # Playwright 配置
 └── .eslintrc.json                # ESLint 配置
 ```
 
@@ -137,6 +165,24 @@ pnpm lint:fix
 
 # 清理构建目录
 pnpm clean
+
+# 单元测试
+pnpm test
+
+# 单元测试（监听模式）
+pnpm test:watch
+
+# 单元测试（覆盖率报告）
+pnpm test:coverage
+
+# E2E 测试
+pnpm test:e2e
+
+# E2E 测试（UI 模式）
+pnpm test:e2e:ui
+
+# E2E 测试（有头模式）
+pnpm test:e2e:headed
 ```
 
 ### 添加新脚本
@@ -183,45 +229,127 @@ pnpm dev
 
 ### GitHub Trending Button Enhanced
 
-- 在 GitHub 导航栏显示 Trending 按钮
-- 支持按编程语言筛选
-- 可收藏常用语言
-- 快捷键: `Alt+T` 快速打开，`Alt+Shift+T` 打开下拉菜单
+在 GitHub 导航栏添加增强版 Trending 按钮。
+
+**功能特性：**
+
+- 🔥 在导航栏显示 Trending 快捷按钮
+- 🗂️ 按编程语言分类筛选（Web、Mobile、Systems、General）
+- ⭐ 收藏常用语言，快速访问
+- 🕐 支持 Today/This Week/This Month 时间段切换
+- 🔍 搜索框快速查找语言
+- 📜 最近访问记录
+- ⚙️ 可配置默认语言、时间段、新标签页打开等
+
+**快捷键：**
+
+| 快捷键 | 功能 |
+|--------|------|
+| `Alt+T` | 直接打开 Trending 页面 |
+| `Alt+Shift+T` | 打开/关闭下拉菜单 |
+
+---
 
 ### GitHub Fold Files Enhanced
 
-- 在仓库文件列表页面可折叠文件夹
-- 支持全部折叠/展开
-- 折叠状态会自动保存
-- 鼠标悬停可预览折叠内容
+在仓库文件列表页面提供文件夹折叠功能。
+
+**功能特性：**
+
+- 📁 点击文件夹图标旁的箭头即可折叠
+- 🔄 支持全部折叠/展开按钮
+- 💾 折叠状态自动保存，刷新后保持
+- 👁️ 鼠标悬停显示折叠内容预览
+- ✨ 平滑的展开/折叠动画效果
+
+---
 
 ### GitHub Fold About Sidebar
 
-- 点击 About 区域旁的箭头即可折叠
-- 折叠状态会自动保存
-- 支持平滑动画效果
+折叠/展开 GitHub 仓库侧边栏的 About 区域。
+
+**功能特性：**
+
+- 🔽 点击 About 标题旁的箭头即可折叠
+- 💾 折叠状态按仓库自动保存
+- ✨ 支持平滑动画效果
+- 🎨 完美融入 GitHub 原生界面风格
+
+---
 
 ### GitHub 增强工具栏
 
-- 在 GitHub 顶部工具栏添加快捷按钮
-- 支持 Github.dev、DeepWiki 和 ZreadAi 快速跳转
-- 完美适配亮暗色主题
-- 根据按钮数量自动切换图标/文本模式
+在 GitHub 仓库页面顶部添加快捷工具按钮。
+
+**功能特性：**
+
+- 🔗 一键跳转 Github.dev（在线编辑器）
+- 📚 一键跳转 DeepWiki（AI 文档）
+- 🤖 一键跳转 ZreadAi（AI 代码阅读）
+- 🌓 自动适配亮色/暗色主题
+- 📱 响应式设计，窄屏自动切换图标模式
+
+---
 
 ### Linux.do 自动标记已读
 
-- 多种运行模式：极速、快速、标准、仿真、隐身
-- 真实用户行为模拟，降低检测风险
-- 可配置并发数、回复数、批次大小等参数
-- 支持快捷键操作（Alt+S 开始/停止，Alt+P 暂停/恢复）
-- 可拖动的浮动面板，支持主题切换
+自动将 Linux.do 论坛的帖子及回复标记为已读。
+
+**运行模式：**
+
+| 模式 | 说明 |
+|------|------|
+| ⚡ 极速模式 | 最快速度，仅标记主帖 |
+| 🚀 快速模式 | 较快速度，标记部分回复 |
+| 📖 标准模式 | 平衡速度与安全 |
+| 🧑 仿真模式 | 模拟真实用户行为 |
+| 🥷 隐身模式 | 最大程度模拟真人 |
+| ⚙️ 自定义 | 完全自定义所有参数 |
+
+**功能特性：**
+
+- 🎭 真实用户行为模拟，降低检测风险
+- ⚙️ 可配置并发数、回复数、批次大小等参数
+- 🖱️ 可拖动的浮动控制面板
+- 🌓 支持亮色/暗色主题切换
+- 📊 实时显示处理进度和统计信息
+- 🔔 可选声音和通知提醒
+
+**快捷键：**
+
+| 快捷键 | 功能 |
+|--------|------|
+| `Alt+S` | 开始/停止 |
+| `Alt+P` | 暂停/恢复 |
+
+---
 
 ### Linux.do 帖子导出器
 
-- 支持导出为 JSON 和 HTML 格式
-- 可选嵌入图片为 Base64
-- 支持多语言界面（中/英/日/韩/西/法/德/俄）
-- 美观的 HTML 导出样式，支持响应式和打印
+导出 Linux.do 论坛帖子为多种格式。
+
+**功能特性：**
+
+- 📄 支持导出为 JSON 格式（结构化数据）
+- 🌐 支持导出为 HTML 格式（美观排版）
+- 🖼️ 可选嵌入图片为 Base64
+- 🌍 支持 9 种语言界面：
+  - 简体中文、繁體中文、English、日本語
+  - 한국어、Español、Français、Deutsch、Русский
+- 📱 HTML 导出支持响应式布局和打印优化
+
+## 📚 文档
+
+详细文档请查看 [docs 目录](./docs/README.md)：
+
+- [快速开始](./docs/getting-started.md) - 安装和基本使用
+- [GitHub 脚本](./docs/scripts/github.md) - GitHub 相关脚本详细说明
+- [Linux.do 脚本](./docs/scripts/linuxdo.md) - Linux.do 论坛脚本详细说明
+- [架构设计](./docs/architecture.md) - 项目架构和设计理念
+- [开发新脚本](./docs/development.md) - 如何开发新脚本
+- [API 参考](./docs/api/core.md) - 核心模块 API 文档
+- [常见问题](./docs/faq.md) - FAQ
+- [更新日志](./docs/changelog.md) - 版本更新记录
 
 ## 🤝 贡献
 

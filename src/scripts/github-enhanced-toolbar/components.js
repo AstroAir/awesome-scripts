@@ -95,7 +95,8 @@ export async function addButtons() {
     });
 
     const existingCount = countExistingButtons(buttonContainer);
-    const iconOnly = existingCount > CONFIG.BUTTON_THRESHOLD;
+    const isNarrowWidth = window.innerWidth < CONFIG.WIDTH_THRESHOLD;
+    const iconOnly = existingCount > CONFIG.BUTTON_THRESHOLD || isNarrowWidth;
 
     BUTTONS.slice().reverse().forEach((config) => {
       const button = createCustomButton(config, iconOnly);
