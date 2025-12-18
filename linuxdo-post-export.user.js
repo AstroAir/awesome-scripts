@@ -1435,7 +1435,7 @@
                 ${data.topic.tags
                   .map((tag) => `<span class="tag">${tag}</span>`)
                   .join("")}
-            </div>
+            </div>  
             <div class="topic-info">
                 <div class="topic-info-item">
                     <span class="topic-info-label">${i18n.t("topicID")}:</span>

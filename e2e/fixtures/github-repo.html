@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AstroAir/awesome-scripts · GitHub</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; margin: 0; padding: 20px; }
+    .BorderGrid-cell { padding: 16px; border: 1px solid #d0d7de; border-radius: 6px; margin: 10px 0; }
+    .h4 { font-size: 14px; font-weight: 600; margin: 0 0 8px; }
+    .mb-3 { margin-bottom: 16px; }
+    .AppHeader-actions { display: flex; gap: 8px; padding: 10px; background: #f6f8fa; }
+    .react-directory-row { padding: 8px; border-bottom: 1px solid #d0d7de; }
+    .Button { padding: 5px 16px; border: 1px solid #d0d7de; border-radius: 6px; background: #f6f8fa; cursor: pointer; }
+    details.details-reset { display: none; }
+  </style>
+</head>
+<body>
+  <!-- GitHub Header -->
+  <header>
+    <div class="AppHeader-actions" data-testid="actions-container">
+      <button class="Button">Notifications</button>
+      <div class="AppHeader-user">User</div>
+    </div>
+  </header>
+
+  <!-- Repository Page -->
+  <main>
+    <!-- About Section -->
+    <div class="BorderGrid-cell">
+      <h2 class="mb-3 h4">About</h2>
+      <p class="about-description">一个实用的油猴脚本合集，包含 GitHub 增强和 Linux.do 论坛工具</p>
+      <div class="about-topics">
+        <a href="#">userscript</a>
+        <a href="#">tampermonkey</a>
+        <a href="#">github</a>
+      </div>
+      <div class="about-links">
+        <a href="https://github.com/AstroAir/awesome-scripts">Homepage</a>
+      </div>
+      <details class="details-reset">
+        <summary>Edit</summary>
+      </details>
+    </div>
+
+    <!-- File Browser -->
+    <div class="react-directory">
+      <table>
+        <tbody data-folder="src">
+          <tr class="react-directory-row" aria-label="Directory">
+            <td><a class="js-navigation-open" href="/src">src</a></td>
+            <td>Source files</td>
+          </tr>
+          <tr>
+            <td><a href="/src/index.js">index.js</a></td>
+            <td>Entry point</td>
+          </tr>
+          <tr>
+            <td><a href="/src/utils.js">utils.js</a></td>
+            <td>Utility functions</td>
+          </tr>
+        </tbody>
+        <tbody data-folder="tests">
+          <tr class="react-directory-row" aria-label="Directory">
+            <td><a class="js-navigation-open" href="/tests">tests</a></td>
+            <td>Test files</td>
+          </tr>
+          <tr>
+            <td><a href="/tests/index.test.js">index.test.js</a></td>
+            <td>Tests</td>
+          </tr>
+        </tbody>
+        <tbody>
+          <tr>
+            <td><a href="/README.md">README.md</a></td>
+            <td>Documentation</td>
+          </tr>
+          <tr>
+            <td><a href="/package.json">package.json</a></td>
+            <td>Package config</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</body>
+</html>

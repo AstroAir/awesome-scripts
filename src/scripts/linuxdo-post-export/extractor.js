@@ -27,15 +27,20 @@ export async function imageToBase64(url) {
 
 /**
  * 等待帖子加载完成
+ * @param {number} timeout - 超时时间（毫秒），默认30秒
  * @returns {Promise<void>}
  */
-export function waitForPosts() {
-  return new Promise((resolve) => {
+export function waitForPosts(timeout = 30000) {
+  return new Promise((resolve, reject) => {
+    const startTime = Date.now();
     const checkInterval = setInterval(() => {
       const posts = document.querySelectorAll('article[data-post-id]');
       if (posts.length > 0) {
         clearInterval(checkInterval);
         resolve();
+      } else if (Date.now() - startTime > timeout) {
+        clearInterval(checkInterval);
+        reject(new Error(i18n.t('noPostsFound')));
       }
     }, 500);
   });

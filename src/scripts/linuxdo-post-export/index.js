@@ -12,11 +12,16 @@ import { showProgress, hideProgress, createExportButton } from './ui.js';
  * 初始化导出器
  */
 async function init() {
-  showProgress(i18n.t('loadingPosts'));
-  await waitForPosts();
-  hideProgress();
-  createExportButton();
-  console.log(i18n.t('scriptInitialized') + ' v2.1.0');
+  try {
+    showProgress(i18n.t('loadingPosts'));
+    await waitForPosts();
+    hideProgress();
+    createExportButton();
+    console.log(i18n.t('scriptInitialized') + ' v2.1.0');
+  } catch (error) {
+    hideProgress();
+    console.error('Linux.do Exporter:', error.message);
+  }
 }
 
 init();
