@@ -52,6 +52,7 @@ export function generateHTML(data) {
     lightTheme: i18n.t('lightTheme'),
     darkTheme: i18n.t('darkTheme'),
     autoTheme: i18n.t('autoTheme'),
+    theme: i18n.t('theme'),
   };
 
   const html = `<!DOCTYPE html>
@@ -91,10 +92,12 @@ export function generateHTML(data) {
                 <input type="text" class="search-input" id="searchInput" placeholder="${i18nStrings.searchPlaceholder}">
                 <button class="search-clear" id="searchClear">&times;</button>
             </div>
-            <div class="theme-toggle">
-                <button class="theme-btn" data-theme="light" title="${i18nStrings.lightTheme}">☀️ ${i18nStrings.lightTheme}</button>
-                <button class="theme-btn active" data-theme="auto" title="${i18nStrings.autoTheme}">🌗 ${i18nStrings.autoTheme}</button>
-                <button class="theme-btn" data-theme="dark" title="${i18nStrings.darkTheme}">🌙 ${i18nStrings.darkTheme}</button>
+            <div class="theme-selector">
+                <select id="themeSelect" class="theme-select">
+                    <option value="auto">🌗 ${i18nStrings.autoTheme}</option>
+                    <option value="light">☀️ ${i18nStrings.lightTheme}</option>
+                    <option value="dark">🌙 ${i18nStrings.darkTheme}</option>
+                </select>
             </div>
         </div>
 
@@ -135,12 +138,11 @@ export function generateHTML(data) {
     <script>
         (function() {
             // Theme switching
-            const themeButtons = document.querySelectorAll('.theme-btn');
+            const themeSelect = document.getElementById('themeSelect');
             const htmlElement = document.documentElement;
             
             function setTheme(theme) {
-                themeButtons.forEach(btn => btn.classList.remove('active'));
-                document.querySelector('[data-theme="' + theme + '"]').classList.add('active');
+                themeSelect.value = theme;
                 
                 if (theme === 'auto') {
                     htmlElement.removeAttribute('data-theme');
@@ -155,10 +157,8 @@ export function generateHTML(data) {
             const savedTheme = localStorage.getItem('theme') || 'auto';
             setTheme(savedTheme);
             
-            themeButtons.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    setTheme(this.getAttribute('data-theme'));
-                });
+            themeSelect.addEventListener('change', function() {
+                setTheme(this.value);
             });
             
             // Search functionality

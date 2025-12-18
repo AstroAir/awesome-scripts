@@ -359,31 +359,45 @@ export function getHTMLStyles() {
     .search-clear.visible { display: block; }
     .search-clear:hover { color: var(--text-secondary); }
 
-    .theme-toggle {
-      display: flex;
-      gap: 4px;
+    .theme-selector {
+      position: relative;
+    }
+
+    .theme-select {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
       background: var(--bg-secondary);
-      padding: 4px;
-      border-radius: var(--radius-sm);
       border: 1px solid var(--border-color);
-    }
-
-    .theme-btn {
-      padding: 6px 12px;
-      border: none;
-      background: transparent;
-      color: var(--text-secondary);
-      font-size: 13px;
+      border-radius: var(--radius-sm);
+      padding: 8px 36px 8px 12px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-primary);
       cursor: pointer;
-      border-radius: 3px;
+      outline: none;
       transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 4px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236c757d' d='M2 4l4 4 4-4'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      min-width: 120px;
     }
 
-    .theme-btn:hover { color: var(--text-primary); background: var(--hover-bg); }
-    .theme-btn.active { background: var(--bg-primary); color: var(--text-primary); box-shadow: var(--shadow-sm); }
+    .theme-select:hover {
+      border-color: var(--accent-color);
+      background-color: var(--hover-bg);
+    }
+
+    .theme-select:focus {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 2px rgba(73, 80, 87, 0.1);
+    }
+
+    .theme-select option {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      padding: 8px;
+    }
 
     .no-results {
       background: var(--bg-primary);
@@ -456,11 +470,17 @@ export function getUIStyles() {
       --export-shadow-hover: rgba(0, 0, 0, 0.2);
     }
 
-    /* Dark theme detection - Discourse uses html.dark-theme or scheme-dark */
+    /* Dark theme detection - Discourse/Linux.do uses various class names */
     html.dark-theme #export-controls,
+    html.dark #export-controls,
     html[data-color-scheme="dark"] #export-controls,
+    html[data-theme="dark"] #export-controls,
     html.scheme-dark #export-controls,
-    body.dark-theme #export-controls {
+    body.dark-theme #export-controls,
+    body.dark #export-controls,
+    .dark-theme #export-controls,
+    .dark #export-controls,
+    #export-controls.dark-mode {
       --export-btn-bg: #ffffff;
       --export-btn-bg-hover: #f0f0f0;
       --export-btn-text: #1a1a1a;
@@ -489,7 +509,9 @@ export function getUIStyles() {
 
     /* Override for explicit light theme on site */
     html.light-theme #export-controls,
+    html.light #export-controls,
     html[data-color-scheme="light"] #export-controls,
+    html[data-theme="light"] #export-controls,
     html.scheme-light #export-controls {
       --export-btn-bg: #1a1a1a;
       --export-btn-bg-hover: #2d2d2d;
@@ -589,12 +611,90 @@ export function getUIStyles() {
       color: var(--export-panel-text);
     }
 
+    /* Toggle button - always visible */
+    .export-toggle-btn {
+      background: var(--export-btn-bg);
+      color: var(--export-btn-text);
+      border: none;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 20px;
+      box-shadow: 0 2px 12px var(--export-shadow);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      align-self: flex-end;
+    }
+
+    .export-toggle-btn:hover {
+      background: var(--export-btn-bg-hover);
+      box-shadow: 0 4px 16px var(--export-shadow-hover);
+      transform: scale(1.05);
+    }
+
+    .export-toggle-btn:active {
+      transform: scale(0.95);
+    }
+
+    .export-toggle-btn .icon {
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    #export-controls.collapsed .export-toggle-btn .icon {
+      transform: rotate(180deg);
+    }
+
+    /* Panel container */
+    .export-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      overflow: hidden;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      max-height: 300px;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #export-controls.collapsed .export-panel {
+      max-height: 0;
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+    }
+
+    /* Staggered animation for panel items */
+    .export-panel > * {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: translateX(0);
+      opacity: 1;
+    }
+
+    #export-controls.collapsed .export-panel > * {
+      transform: translateX(20px);
+      opacity: 0;
+    }
+
+    .export-panel > *:nth-child(1) { transition-delay: 0.05s; }
+    .export-panel > *:nth-child(2) { transition-delay: 0.1s; }
+    .export-panel > *:nth-child(3) { transition-delay: 0.15s; }
+    .export-panel > *:nth-child(4) { transition-delay: 0.2s; }
+
+    #export-controls.collapsed .export-panel > *:nth-child(1) { transition-delay: 0.15s; }
+    #export-controls.collapsed .export-panel > *:nth-child(2) { transition-delay: 0.1s; }
+    #export-controls.collapsed .export-panel > *:nth-child(3) { transition-delay: 0.05s; }
+    #export-controls.collapsed .export-panel > *:nth-child(4) { transition-delay: 0s; }
+
     @media (max-width: 768px) {
       #export-controls { bottom: 16px; right: 16px; }
       .export-btn { padding: 10px 16px; font-size: 12px; min-width: 140px; }
       .checkbox-wrapper { padding: 8px 12px; font-size: 12px; }
       .language-selector { padding: 6px 10px; }
       .language-selector select { font-size: 12px; }
+      .export-toggle-btn { width: 44px; height: 44px; font-size: 18px; }
     }
   `;
 }

@@ -8,6 +8,65 @@ import { extractAllPosts } from './extractor.js';
 import { generateJSON, generateHTML, downloadFile } from './generator.js';
 
 /**
+ * 检测当前页面是否为深色主题
+ * @returns {boolean}
+ */
+function detectDarkTheme() {
+  const html = document.documentElement;
+  const body = document.body;
+
+  if (
+    html.classList.contains('dark-theme') ||
+    html.classList.contains('dark') ||
+    html.getAttribute('data-color-scheme') === 'dark' ||
+    html.getAttribute('data-theme') === 'dark' ||
+    html.classList.contains('scheme-dark') ||
+    body.classList.contains('dark-theme') ||
+    body.classList.contains('dark')
+  ) {
+    return true;
+  }
+
+  const bgColor = getComputedStyle(body).backgroundColor;
+  const match = bgColor.match(/\d+/g);
+  if (match) {
+    const [r, g, b] = match.map(Number);
+    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+    if (luminance < 0.5) {
+      return true;
+    }
+  }
+
+  return window.matchMedia('(prefers-color-scheme: dark)').matches;
+}
+
+const STORAGE_KEY = 'linuxdo-export-panel-collapsed';
+
+/**
+ * 获取面板折叠状态
+ * @returns {boolean}
+ */
+function getPanelCollapsed() {
+  try {
+    return localStorage.getItem(STORAGE_KEY) === 'true';
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * 保存面板折叠状态
+ * @param {boolean} collapsed
+ */
+function setPanelCollapsed(collapsed) {
+  try {
+    localStorage.setItem(STORAGE_KEY, String(collapsed));
+  } catch {
+    // ignore
+  }
+}
+
+/**
  * 显示进度提示
  * @param {string} message - 消息
  */
@@ -107,24 +166,44 @@ export function createExportButton() {
   buttonContainer.innerHTML = `
     <style>${getUIStyles()}</style>
     <div id="export-controls">
-      <button id="export-json" class="export-btn">
-        <span>📄</span>
-        <span>${i18n.t('exportJSON')}</span>
+      <div class="export-panel">
+        <button id="export-json" class="export-btn">
+          <span>📄</span>
+          <span>${i18n.t('exportJSON')}</span>
+        </button>
+        <button id="export-html" class="export-btn">
+          <span>🌐</span>
+          <span>${i18n.t('exportHTML')}</span>
+        </button>
+        <label class="checkbox-wrapper">
+          <input type="checkbox" id="embed-images" checked>
+          <label for="embed-images">${i18n.t('embedImages')}</label>
+        </label>
+      </div>
+      <button id="export-toggle" class="export-toggle-btn" title="${i18n.t('togglePanel') || '展开/收起'}">
+        <span class="icon">📤</span>
       </button>
-      <button id="export-html" class="export-btn">
-        <span>🌐</span>
-        <span>${i18n.t('exportHTML')}</span>
-      </button>
-      <label class="checkbox-wrapper">
-        <input type="checkbox" id="embed-images" checked>
-        <label for="embed-images">${i18n.t('embedImages')}</label>
-      </label>
     </div>
   `;
   document.body.appendChild(buttonContainer);
 
+  const exportControls = document.getElementById('export-controls');
+  if (detectDarkTheme()) {
+    exportControls.classList.add('dark-mode');
+  }
+
+  if (getPanelCollapsed()) {
+    exportControls.classList.add('collapsed');
+  }
+
+  const toggleBtn = document.getElementById('export-toggle');
+  toggleBtn.addEventListener('click', () => {
+    const isCollapsed = exportControls.classList.toggle('collapsed');
+    setPanelCollapsed(isCollapsed);
+  });
+
   const langSelector = createLanguageSelector();
-  document.getElementById('export-controls').appendChild(langSelector);
+  document.querySelector('.export-panel').appendChild(langSelector);
 
   document.getElementById('export-json').addEventListener('click', async () => {
     const btn = document.getElementById('export-json');
