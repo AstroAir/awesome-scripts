@@ -31,7 +31,7 @@ describe('LocalStorageManager', () => {
       storage.set('key1', 'value1');
       expect(localStorage.setItem).toHaveBeenCalledWith(
         'test-prefix-key1',
-        JSON.stringify('value1')
+        JSON.stringify('value1'),
       );
     });
   });

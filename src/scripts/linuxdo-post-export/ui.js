@@ -4,8 +4,8 @@
 
 import i18n from './i18n.js';
 import { getUIStyles } from './styles.js';
-import { extractAllPosts } from './extractor.js';
-import { generateJSON, generateHTML, downloadFile } from './generator.js';
+import { extractAllPosts, scrollAndCollectComments, extractTopicStats } from './extractor.js';
+import { generateJSON, generateHTML, generateMarkdown, downloadFile } from './generator.js';
 
 /**
  * 检测当前页面是否为深色主题
@@ -152,8 +152,11 @@ export function updateUILanguage() {
   const htmlBtn = document.getElementById('export-html');
   const embedLabel = document.querySelector('label[for="embed-images"]');
 
+  const mdBtn = document.getElementById('export-markdown');
+
   if (jsonBtn) jsonBtn.querySelector('span:last-child').textContent = i18n.t('exportJSON');
   if (htmlBtn) htmlBtn.querySelector('span:last-child').textContent = i18n.t('exportHTML');
+  if (mdBtn) mdBtn.querySelector('span:last-child').textContent = i18n.t('exportMarkdown');
   if (embedLabel) embedLabel.textContent = i18n.t('embedImages');
 }
 
@@ -175,9 +178,17 @@ export function createExportButton() {
           <span>🌐</span>
           <span>${i18n.t('exportHTML')}</span>
         </button>
+        <button id="export-markdown" class="export-btn">
+          <span>📝</span>
+          <span>${i18n.t('exportMarkdown')}</span>
+        </button>
         <label class="checkbox-wrapper">
           <input type="checkbox" id="embed-images" checked>
           <label for="embed-images">${i18n.t('embedImages')}</label>
+        </label>
+        <label class="checkbox-wrapper">
+          <input type="checkbox" id="include-comments">
+          <label for="include-comments">${i18n.t('includeComments')}</label>
         </label>
       </div>
       <button id="export-toggle" class="export-toggle-btn" title="${i18n.t('togglePanel') || '展开/收起'}">
@@ -208,17 +219,33 @@ export function createExportButton() {
   document.getElementById('export-json').addEventListener('click', async () => {
     const btn = document.getElementById('export-json');
     const embedImages = document.getElementById('embed-images').checked;
+    const includeComments = document.getElementById('include-comments').checked;
 
     btn.disabled = true;
 
-    if (embedImages) {
-      showProgress(i18n.t('convertingImagesJSON'));
-    } else {
-      showProgress(i18n.t('exportingJSON'));
-    }
-
     try {
+      if (embedImages) {
+        showProgress(i18n.t('convertingImagesJSON'));
+      } else {
+        showProgress(i18n.t('exportingJSON'));
+      }
+
       const data = await extractAllPosts(embedImages);
+      
+      const topicStats = await extractTopicStats(embedImages);
+      if (topicStats) {
+        data.topicStats = topicStats;
+      }
+
+      if (includeComments) {
+        showProgress(i18n.t('loadingComments'));
+        const commentsMap = await scrollAndCollectComments((count) => {
+          showProgress(i18n.t('commentsLoaded').replace('{count}', count));
+        }, embedImages);
+        data.comments = Array.from(commentsMap.values()).sort((a, b) => a.postNumber - b.postNumber);
+        data.commentCount = data.comments.length;
+      }
+
       const json = generateJSON(data);
       const filename = `linux-do-topic-${data.topic.topicId}-${Date.now()}.json`;
       downloadFile(json, filename, 'application/json');
@@ -236,21 +263,81 @@ export function createExportButton() {
   document.getElementById('export-html').addEventListener('click', async () => {
     const btn = document.getElementById('export-html');
     const embedImages = document.getElementById('embed-images').checked;
+    const includeComments = document.getElementById('include-comments').checked;
 
     btn.disabled = true;
 
-    if (embedImages) {
-      showProgress(i18n.t('convertingImages'));
-    } else {
-      showProgress(i18n.t('exportingHTML'));
-    }
-
     try {
+      if (embedImages) {
+        showProgress(i18n.t('convertingImages'));
+      } else {
+        showProgress(i18n.t('exportingHTML'));
+      }
+
       const data = await extractAllPosts(embedImages);
+      
+      const topicStats = await extractTopicStats(embedImages);
+      if (topicStats) {
+        data.topicStats = topicStats;
+      }
+
+      if (includeComments) {
+        showProgress(i18n.t('loadingComments'));
+        const commentsMap = await scrollAndCollectComments((count) => {
+          showProgress(i18n.t('commentsLoaded').replace('{count}', count));
+        }, embedImages);
+        data.comments = Array.from(commentsMap.values()).sort((a, b) => a.postNumber - b.postNumber);
+        data.commentCount = data.comments.length;
+      }
+
       const html = generateHTML(data);
       const filename = `linux-do-topic-${data.topic.topicId}-${Date.now()}.html`;
       downloadFile(html, filename, 'text/html');
       showProgress(i18n.t('htmlExportCompleted'));
+      setTimeout(hideProgress, 2000);
+    } catch (error) {
+      console.error('Export failed:', error);
+      showProgress(i18n.t('exportFailed') + error.message);
+      setTimeout(hideProgress, 3000);
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
+  document.getElementById('export-markdown').addEventListener('click', async () => {
+    const btn = document.getElementById('export-markdown');
+    const embedImages = document.getElementById('embed-images').checked;
+    const includeComments = document.getElementById('include-comments').checked;
+
+    btn.disabled = true;
+
+    try {
+      if (embedImages) {
+        showProgress(i18n.t('convertingImagesMarkdown'));
+      } else {
+        showProgress(i18n.t('exportingMarkdown'));
+      }
+
+      const data = await extractAllPosts(embedImages);
+      
+      const topicStats = await extractTopicStats(embedImages);
+      if (topicStats) {
+        data.topicStats = topicStats;
+      }
+
+      if (includeComments) {
+        showProgress(i18n.t('loadingComments'));
+        const commentsMap = await scrollAndCollectComments((count) => {
+          showProgress(i18n.t('commentsLoaded').replace('{count}', count));
+        }, embedImages);
+        data.comments = Array.from(commentsMap.values()).sort((a, b) => a.postNumber - b.postNumber);
+        data.commentCount = data.comments.length;
+      }
+
+      const markdown = generateMarkdown(data);
+      const filename = `linux-do-topic-${data.topic.topicId}-${Date.now()}.md`;
+      downloadFile(markdown, filename, 'text/markdown');
+      showProgress(i18n.t('markdownExportCompleted'));
       setTimeout(hideProgress, 2000);
     } catch (error) {
       console.error('Export failed:', error);

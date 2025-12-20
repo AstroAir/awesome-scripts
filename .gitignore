@@ -23,7 +23,8 @@ npm-debug.log*
 *.bak
 
 # Build output
-dist/
+dist/*
+!dist/*.user.js
 build/
 
 # Local config

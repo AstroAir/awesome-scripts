@@ -1,0 +1,18 @@
+# Build output
+dist/
+
+# Dependencies
+node_modules/
+
+# Coverage reports
+coverage/
+
+# Test results
+test-results/
+playwright-report/
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
